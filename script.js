@@ -23,18 +23,15 @@ function showCard(card) {
   const img = document.createElement("img");
   img.src = getCardImage(card);
   img.className = "card-img";
-
-  display.innerHTML = ''; // Clear the display first
-  display.appendChild(img); // Add the image
+  display.innerHTML = '';
+  display.appendChild(img);
 }
 
 function getCardImage(card) {
-  const valueMap = {
-    1: 'ace', 11: 'jack', 12: 'queen', 13: 'king'
-  };
+  const valueMap = { 1: 'ace', 11: 'jack', 12: 'queen', 13: 'king' };
   const value = valueMap[card.value] || card.value;
   const suit = card.suit.toLowerCase();
-  return `cards/${value}_of_${suit}.svg`; // Path based on your structure
+  return `cards/${value}_of_${suit}.svg`;
 }
 
 function askQuestion() {
@@ -50,8 +47,9 @@ function askQuestion() {
     optionsDiv.appendChild(btn);
   });
 
-  document.getElementById("result").textContent = '';
-  document.getElementById("result").className = 'result-hide';
+  const resultDiv = document.getElementById("result");
+  resultDiv.textContent = '';
+  resultDiv.className = 'result-hide';
   document.getElementById("next").style.display = "none";
 }
 
@@ -84,12 +82,10 @@ function handleChoice(choice) {
   // Show result
   const resultDiv = document.getElementById("result");
   resultDiv.textContent = correct ? "✅ Correct!" : "❌ Wrong!";
-  resultDiv.className = 'result-show';
+  resultDiv.className = `result-show ${correct ? 'correct' : 'wrong'}`;
 
-  // Disable buttons
   document.querySelectorAll("#options button").forEach(btn => btn.disabled = true);
 
-  // Log the round
   logRound({
     question: gameFlow[currentStep].question,
     choice,
@@ -97,28 +93,30 @@ function handleChoice(choice) {
     result: correct
   });
 
-  // Wait for animation then auto-advance or restart
   setTimeout(() => {
     cardDisplay.classList.remove("reveal");
 
     if (correct) {
       currentStep++;
       if (currentStep < gameFlow.length) {
-        setTimeout(askQuestion, 800);
+        setTimeout(askQuestion, 600);
       } else {
         document.getElementById("question").textContent = "🎉 You made it through!";
         document.getElementById("options").innerHTML = '';
         document.getElementById("next").style.display = "none";
 
-        // Restart after delay
         setTimeout(() => {
           currentStep = 0;
           drawnCards = [];
           askQuestion();
-        }, 2000);
+        }, 2500);
       }
     } else {
-      document.getElementById("next").style.display = "inline-block";
+      setTimeout(() => {
+        currentStep = 0;
+        drawnCards = [];
+        askQuestion();
+      }, 1800);
     }
   }, 1000);
 }
@@ -132,7 +130,6 @@ document.getElementById("next").addEventListener("click", () => {
     document.getElementById("options").innerHTML = '';
     document.getElementById("next").style.display = "none";
 
-    // Restart after delay
     setTimeout(() => {
       currentStep = 0;
       drawnCards = [];
@@ -147,16 +144,16 @@ document.getElementById("clear-log").addEventListener("click", () => {
 
 function logRound(logData) {
   const logItem = document.createElement("li");
-  logItem.textContent = `${logData.question}: You chose ${logData.choice}, the card was the ${logData.card.value} of ${logData.card.suit} - ${logData.result ? "Win" : "Lose"}`;
+  logItem.textContent = `${logData.question}: You chose ${logData.choice}, card was ${logData.card.value} of ${logData.card.suit} - ${logData.result ? "✅ Win" : "❌ Lose"}`;
   document.getElementById("game-log").appendChild(logItem);
 }
 
-// Toggle Dark Mode/Light Mode
+// Dark mode toggle
 document.getElementById("toggle-theme").addEventListener("click", () => {
   document.body.classList.toggle("dark-mode");
-  const isDarkMode = document.body.classList.contains("dark-mode");
-  document.getElementById("toggle-theme").textContent = isDarkMode ? "🌞" : "🌙";
+  const isDark = document.body.classList.contains("dark-mode");
+  document.getElementById("toggle-theme").textContent = isDark ? "🌞" : "🌙";
 });
 
-// Start the game
+// Start game
 askQuestion();

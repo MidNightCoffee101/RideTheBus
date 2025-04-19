@@ -7,24 +7,40 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <button id="toggle-theme" class="theme-btn">🌙</button>
+  <!-- Dark/Light mode toggle -->
+  <button id="toggle-theme" class="theme-btn" aria-label="Toggle dark mode">🌙</button>
 
-  <div id="game-container">
-    <div id="game-section">
-      <h1>Ride the Bus Game</h1>
-      <div id="question"></div>
-      <div id="card-display"></div>
-      <div id="options"></div>
-      <div id="result" class="result-hide"></div>
-      <button id="next">Next</button>
-    </div>
-    
-    <div id="log-section">
-      <h3>Game Log</h3>
-      <ul id="game-log"></ul>
-      <button id="clear-log">🧹 Clear Log</button>
-    </div>
-  </div>
+  <main id="game-container" role="main">
+    <!-- Main Game Section -->
+    <section id="game-section" aria-labelledby="game-title">
+      <h1 id="game-title">Ride the Bus Game</h1>
+      <div id="question" role="heading" aria-level="2"></div>
+
+      <!-- Cards Display -->
+      <div id="card-display" aria-label="Card Display Area"></div>
+
+      <!-- Answer Options -->
+      <div id="options" aria-label="Answer Choices" role="group"></div>
+
+      <!-- Result Message -->
+      <div id="result" aria-live="polite"></div>
+
+      <!-- Next Question Button -->
+      <button id="next" aria-label="Next Question">Next</button>
+    </section>
+
+    <!-- Game Log Section -->
+    <aside id="log-section" aria-labelledby="log-title">
+      <h3 id="log-title">Game Log</h3>
+      <ul id="game-log" role="log" aria-live="polite"></ul>
+      <button id="clear-log" aria-label="Clear game log">🧹 Clear Log</button>
+    </aside>
+  </main>
+
+  <footer style="text-align: center; margin-top: 10px; font-size: 0.9em; color: gray;">
+    <!-- Optional Footer -->
+    Made with ♥ for Ride the Bus
+  </footer>
 
   <script src="script.js"></script>
 </body>

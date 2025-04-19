@@ -12,8 +12,9 @@ body {
   #game-container {
     display: flex;
     justify-content: space-between;
-    width: 80%;
-    height: 80%; /* Make sure the game fills the screen height */
+    width: 90%;
+    height: 90%;
+    max-width: 1400px;
   }
   
   #game-section {
@@ -23,6 +24,9 @@ body {
     background-color: white;
     border-radius: 15px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
   
   #log-section {
@@ -42,8 +46,24 @@ body {
   
   #card-display {
     margin: 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    min-height: 140px;
+    transition: all 0.3s;
   }
   
+  .card-img {
+    width: 100px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    animation: flipIn 0.5s ease;
+  }
+  
+  /* Question Options */
   #options button {
     padding: 10px 20px;
     font-size: 18px;
@@ -60,6 +80,71 @@ body {
     background-color: #45a049;
   }
   
+  /* Result Styles */
+  #result {
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    display: none;
+  }
+  
+  .result-show {
+    display: inline-block;
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    width: 100%;
+    animation: fadeIn 0.5s ease;
+  }
+
+  footer {
+    text-align: center;
+    padding: 15px 10px;
+    color: #888;
+    font-size: 0.9rem;
+    font-style: italic;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+  }
+  
+  .correct {
+    color: #ffffff;
+    background-color: #4CAF50;
+  }
+  
+  .wrong {
+    color: #ffffff;
+    background-color: #f44336;
+  }
+  
+  /* Flip animation */
+  @keyframes flipIn {
+    from {
+      transform: rotateY(90deg);
+      opacity: 0;
+    }
+    to {
+      transform: rotateY(0);
+      opacity: 1;
+    }
+  }
+  
+  /* Fade animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
   #next {
     margin-top: 20px;
     padding: 10px 20px;
@@ -72,21 +157,6 @@ body {
   
   #next:hover {
     background-color: #0b7dda;
-  }
-  
-  #result {
-    margin-top: 20px;
-    font-size: 20px;
-    font-weight: bold;
-    display: none;
-  }
-  
-  .result-hide {
-    display: none;
-  }
-  
-  .result-show {
-    display: inline-block;
   }
   
   #clear-log {
@@ -103,23 +173,18 @@ body {
     background-color: #e63e3e;
   }
   
-  .card-img {
-    width: 120px;
-    height: auto;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    animation: flipIn 0.5s ease;
-  }
-  
-  @keyframes flipIn {
-    from {
-      transform: rotateY(90deg);
-      opacity: 0;
-    }
-    to {
-      transform: rotateY(0);
-      opacity: 1;
-    }
+  /* Toggle Theme Button */
+  .theme-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: transparent;
+    color: #fff;
+    font-size: 20px;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    transition: color 0.3s;
   }
   
   /* Dark Mode Styles */
@@ -158,20 +223,6 @@ body {
     background-color: #ff4444;
   }
   
-  /* Button Styles for Dark Mode/Light Mode toggle */
-  .theme-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: transparent;
-    color: #fff;
-    font-size: 20px;
-    border: none;
-    cursor: pointer;
-    padding: 10px;
-    transition: color 0.3s;
-  }
-  
   body.dark-mode .theme-btn {
     color: #bbb;
   }
@@ -180,3 +231,6 @@ body {
     color: #fff;
   }
   
+  body.dark-mode footer {
+    color: #aaa;
+  }
